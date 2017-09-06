@@ -44,7 +44,7 @@
 
                                 <td><p>@b.Price</p></td>
 
-                                <td><p><a href="/Home/Buy/@b.Id">Купить</a></p></td>
+                                <td><p><a href="/Home/Buy/@b.Id">Buy</a><a href="/Home/Delete/@b.Id">Delete</a></p></td>
 
                             </tr>
 
@@ -61,9 +61,47 @@
                     });
                 </script>
             </div>
-@*@section Footer {
+            <form method="post" action="">
+    <table>
 
-    Все права защищены. BookStore. 2017.
+        <tr>
 
-}*@
-    
+            <td><p>Enter Name of Book</p></td>
+
+            <td><input type="text" name="Name" /> </td>
+
+        </tr>
+
+        <tr>
+
+            <td><p>Author name</p></td>
+
+            <td>
+
+                <input type="text" name="Author" />
+
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td><p>Price</p></td>
+
+            <td>
+
+                <input type="text" name="Price" />
+
+            </td>
+
+        </tr>
+
+        <tr><td><input type="submit" value="Отправить" /> </td><td></td></tr>
+
+    </table>
+                </form>
+    @*@section Footer {
+
+            Все права защищены. BookStore. 2017.
+
+        }*@

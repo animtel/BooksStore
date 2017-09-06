@@ -21,7 +21,11 @@ namespace BooksStore.Models
     {
 
 
-
+        public void AddToDB(string name_of_book, string author, int price)
+        {
+            TestBD db = new TestBD();
+            db.Books.Add(new Book { Name = $"{name_of_book}", Author = $"{author}", Price = price });
+        }
         protected override void Seed(TestBD db)
 
         {
