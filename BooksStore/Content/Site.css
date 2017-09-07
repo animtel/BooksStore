@@ -62,3 +62,11 @@ td {
 input {
     width: 150px;
 }
+
+#add_book{
+    display:inline-block;
+}
+
+#block_table{
+    margin-top:25px;
+}

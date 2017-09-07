@@ -1,16 +1,10 @@
-﻿
-
-    @using BooksStore.Models
+﻿    @using BooksStore.Models
 
     @model IEnumerable<Book>
 
     @{
-
         Layout = "~/Views/Shared/_Layout.cshtml";
-
     }
-    
-
             <div id="example">
                 <h3>Распродажа книг</h3>
                 <table id="grid">
@@ -26,7 +20,7 @@
                             <th data-field="Name">Name</th>
                             <th data-field="Author">Author</th>
                             <th data-field="Price">Price</th>
-                            <th >Buy</th>
+                            <th >Buy/Delete</th>
                             
                         </tr>
                     </thead>
@@ -44,7 +38,7 @@
 
                                 <td><p>@b.Price</p></td>
 
-                                <td><p><a href="/Home/Buy/@b.Id">Buy</a><a href="/Home/Delete/@b.Id">Delete</a></p></td>
+                                <td><p><a href="/Home/Buy/@b.Id">Buy </a><a class="btn info" href="/Home/Delete/@b.Id"> Delete</a></p></td>
 
                             </tr>
 
@@ -61,47 +55,28 @@
                     });
                 </script>
             </div>
+
             <form method="post" action="">
-    <table>
+            <table id="block_table">
+                
+                    <tr id="add_book">
+                        <td><p>Enter Name of Book</p></td>
 
-        <tr>
-
-            <td><p>Enter Name of Book</p></td>
-
-            <td><input type="text" name="Name" /> </td>
-
-        </tr>
-
-        <tr>
-
-            <td><p>Author name</p></td>
-
-            <td>
-
-                <input type="text" name="Author" />
-
-            </td>
-
-        </tr>
-
-        <tr>
-
-            <td><p>Price</p></td>
-
-            <td>
-
-                <input type="text" name="Price" />
-
-            </td>
-
-        </tr>
-
-        <tr><td><input type="submit" value="Отправить" /> </td><td></td></tr>
-
-    </table>
+                        <td><input type="text" class="form-control" placeholder="Name of Book" name="Name" /> </td>
+                    </tr>
+                    <tr id="add_book">
+                        <td><p>Author name</p></td>
+                        <td>
+                        <input class="form-control" type="text" placeholder="Name of Author" name="Author" />
+                    </td>
+                    </tr>
+                    <tr id="add_book">
+                        <td><p>Price</p></td>
+                        <td>
+                        <input class="form-control" type="text" placeholder="Price" name="Price" />
+                        </td>
+                    </tr>
+                    <tr id="add_book"><td><input class="btn btn-info" type="submit" value="Отправить" /> </td><td></td></tr>
+            </table>
                 </form>
-    @*@section Footer {
 
-            Все права защищены. BookStore. 2017.
-
-        }*@

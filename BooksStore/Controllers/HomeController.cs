@@ -7,6 +7,7 @@ using BooksStore.Models;
 using BooksStore.Util;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using BooksStore.Repository;
 
 namespace BooksStore.Controllers
 {
@@ -14,50 +15,96 @@ namespace BooksStore.Controllers
     public class HomeController : Controller
     {
         // создаем контекст данных
-        TestBD db = new TestBD();
-        [HttpPost]
-        public ActionResult Index(string name, string author, string price)
+        IRepository<Book> db_of_Books;
+        IRepository<Purchase> db_of_Purchases;
+
+        public HomeController()
         {
-            //BookDbInitializer book_init = new BookDbInitializer();
-            //book_init.AddToDB(name, author, Convert.ToInt32(price));
-
-            db.Books.Add(new Book { Name = $"{name}", Author = $"{author}", Price = Convert.ToInt32(price) });
-            db.SaveChanges();
-
-            IEnumerable<Book> books = db.Books;
-
-            ViewBag.Books = books;
-
-            return View(db.Books);
+            db_of_Books = new SQLBookRepository();
+            db_of_Purchases = new SQLPurchaseRepository();
         }
 
-        [HttpGet]
+
         public ActionResult Index()
         {
-            IEnumerable<Book> books = db.Books;
+            IEnumerable<Book> books = db_of_Books.GetItemList();
 
             ViewBag.Books = books;
 
-            return View(db.Books);
+            return View(books);
+        }
+        [HttpPost]
+
+        public ActionResult Index(string name, string author, string price)
+        {
+            
+
+            db_of_Books.Create(new Book { Name = $"{name}", Author = $"{author}", Price = Convert.ToInt32(price) });
+
+            db_of_Books.Save();
+
+            IEnumerable<Book> books = db_of_Books.GetItemList();
+
+            ViewBag.Books = books;
+
+            return View(db_of_Books.GetItemList());
+        }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(Book book)
+        {
+            if (ModelState.IsValid)
+            {
+                db_of_Books.Create(book);
+                db_of_Books.Save();
+                return RedirectToAction("Index");
+            }
+            return View(book);
+        }
+
+        
+        public ActionResult Edit(int id)
+        {
+            Book book = db_of_Books.GetItem(id);
+            return View(book);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Book book)
+        {
+            if (ModelState.IsValid)
+            {
+                db_of_Books.Update(book);
+                db_of_Books.Save();
+                return RedirectToAction("Index");
+            }
+            return View(book);
         }
 
         [HttpGet]
-        public ActionResult Delete(int Id)
+        public ActionResult Delete(int id)
         {
-            IEnumerable<Book> books = db.Books;
-            List<Book> list = new List<Book>();
-            foreach (var item in books)
-            {
-                list.Add(new Book { Id = item.Id, Name = item.Name, Author = item.Author, Price=item.Price});
-            }
-            db.Books.Remove(list[2]);
-            db.SaveChanges();
-
-            IEnumerable<Book> bookss = db.Books;
-
-            ViewBag.Books = bookss;
-            return View("Index");
+            
+            db_of_Books.Delete(id);
+            db_of_Books.Save();
+            IEnumerable<Book> books = db_of_Books.GetItemList();
+            ViewBag.Books = books;
+            return RedirectToAction("Index");
         }
+
+        
+
+        protected override void Dispose(bool disposing)
+        {
+            db_of_Books.Dispose();
+            base.Dispose(disposing);
+        }
+
 
         [HttpGet]
         public ActionResult Buy(int Id)
@@ -70,10 +117,8 @@ namespace BooksStore.Controllers
         public string Buy(Purchase purchase)
         {
             purchase.Date = DateTime.Now;
-            // добавляем информацию о покупке в базу данных
-            db.Purchases.Add(purchase);
-            // сохраняем в бд все изменения
-            db.SaveChanges();
+            db_of_Purchases.Create(purchase);
+            db_of_Purchases.Save();
             return "Спасибо," + purchase.Person + ", за покупку!";
         }
 
