@@ -7,40 +7,40 @@ using System.Web;
 
 namespace BooksStore.Repository
 {
-    public class SQLPaperRepository : IRepository<Paper>
+    public class SQLItemRepository : IRepository<Item>
     {
         private TestBD db;
 
-        public SQLPaperRepository()
+        public SQLItemRepository()
         {
             this.db = new TestBD();
         }
 
-        public IEnumerable<Paper> GetItemList()
+        public IEnumerable<Item> GetItemList()
         {
-            return db.Papers;
+            return db.Items;
         }
 
-        public Paper GetItem(int id)
+        public Item GetItem(int id)
         {
-            return db.Papers.Find(id);
+            return db.Items.Find(id);
         }
 
-        public void Create(Paper paper)
+        public void Create(Item item)
         {
-            db.Papers.Add(paper);
+            db.Items.Add(item);
         }
 
-        public void Update(Paper paper)
+        public void Update(Item paper)
         {
             db.Entry(paper).State = EntityState.Modified;
         }
 
         public void Delete(int id)
         {
-            Paper paper = db.Papers.Find(id);
+            Item paper = db.Items.Find(id);
             if (paper != null)
-                db.Papers.Remove(paper);
+                db.Items.Remove(paper);
         }
 
         public void Save()

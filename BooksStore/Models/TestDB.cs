@@ -12,7 +12,7 @@ namespace BooksStore.Models
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<Journal> Journales { get; set; }
 
-        public DbSet<Paper> Papers { get; set; }
-        public DbSet<Form> Forms { get; set; }
+
+        public DbSet<Item> Items { get; set; }
     }
 }

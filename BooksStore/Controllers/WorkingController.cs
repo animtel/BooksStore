@@ -17,34 +17,43 @@ namespace BooksStore.Controllers
         IRepository<Book> db_of_Books;
         IRepository<Purchase> db_of_Purchases;
         IRepository<Journal> db_of_Journales;
-        IRepository<Paper> db_of_Papers;
+        IRepository<Item> db_of_Items;
         TestBD db = new TestBD();
+        List<Item> current = new List<Item>();
 
         public WorkingController()
         {
             db_of_Books = new SQLBookRepository();
             db_of_Purchases = new SQLPurchaseRepository();
             db_of_Journales = new SQLJournalRepository();
-            db_of_Papers = new SQLPaperRepository();
+            db_of_Items = new SQLItemRepository();
         }
 
         public ActionResult test()
         {
-            var paper = db.Papers.Include(p => p.Form).ToList();
             var books = db.Books.ToList();
             var journales = db.Journales.ToList();
 
-            
-            return View(books);
+            foreach (var item in books)
+            {
+                db.Items.Add(new Item(item.Id, item.Name, item.Author, item.Price));
+            }
+            foreach (var item in journales)
+            {
+                db.Items.Add(new Item(item.Id, item.Name, item.Author, item.Price, item.Number));
+            }
+
+            current = db_of_Items.GetItemList().ToList();
+            return View(current);
         }
 
         // Просмотр подробных сведений о книге
         public ActionResult Details(int id)
         {
-            Book comp = db.Books.Find(id);
-            if (comp != null)
+            Item it = db.Items.Find(id);
+            if (it != null)
             {
-                return PartialView("Details", comp);
+                return PartialView("Details", it);
             }
             return View("test");
         }
@@ -55,16 +64,16 @@ namespace BooksStore.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Book book)
+        public ActionResult Create(Item item)
         {
-            db.Books.Add(book);
+            db.Items.Add(item);
             db.SaveChanges();
             return RedirectToAction("test");
         }
         // Редактирование
         public ActionResult Edit(int id)
         {
-            Book comp = db.Books.Find(id);
+            Item comp = db.Items.Find(id);
             if (comp != null)
             {
                 return PartialView("Edit", comp);
@@ -82,7 +91,7 @@ namespace BooksStore.Controllers
         // Удаление
         public ActionResult Delete(int id)
         {
-            Book comp = db.Books.Find(id);
+            Item comp = db.Items.Find(id);
             if (comp != null)
             {
                 return PartialView("Delete", comp);
@@ -94,11 +103,11 @@ namespace BooksStore.Controllers
         [ActionName("Delete")]
         public ActionResult DeleteRecord(int id)
         {
-            Book comp = db.Books.Find(id);
+            Item comp = db.Items.Find(id);
 
             if (comp != null)
             {
-                db.Books.Remove(comp);
+                db.Items.Remove(comp);
                 db.SaveChanges();
             }
             return RedirectToAction("test");
