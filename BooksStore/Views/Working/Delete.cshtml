@@ -1,10 +1,10 @@
 ﻿@model BooksStore.Models.Book
 
-<h3>Вы действительно хотите удалить данную модель?</h3>
+<h3>Deleting</h3>
 <div>
-    <p>Ид.: @Html.DisplayFor(m => m.Id)</p>
-    <p>Модель: @Html.DisplayFor(m => m.Model)</p>
-    <p>Год выпуска: @Html.DisplayFor(m => m.Year)</p>
+    <p>Id.: @Html.DisplayFor(m => m.Id)</p>
+    <p>Name: @Html.DisplayFor(m => m.Name)</p>
+    <p>Price: @Html.DisplayFor(m => m.Price)</p>
 
     @using (Html.BeginForm())
     {

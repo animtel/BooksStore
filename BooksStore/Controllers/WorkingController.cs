@@ -31,8 +31,11 @@ namespace BooksStore.Controllers
         public ActionResult test()
         {
             var paper = db.Papers.Include(p => p.Form).ToList();
-            var test = db.Books.ToList();
-            return View(test);
+            var books = db.Books.ToList();
+            var journales = db.Journales.ToList();
+
+            
+            return View(books);
         }
 
         // Просмотр подробных сведений о книге
@@ -43,7 +46,7 @@ namespace BooksStore.Controllers
             {
                 return PartialView("Details", comp);
             }
-            return View("Index");
+            return View("test");
         }
         // Добавление
         public ActionResult Create()
@@ -56,7 +59,7 @@ namespace BooksStore.Controllers
         {
             db.Books.Add(book);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("test");
         }
         // Редактирование
         public ActionResult Edit(int id)
@@ -66,7 +69,7 @@ namespace BooksStore.Controllers
             {
                 return PartialView("Edit", comp);
             }
-            return View("Index");
+            return View("test");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -74,7 +77,7 @@ namespace BooksStore.Controllers
         {
             db.Entry(comp).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("test");
         }
         // Удаление
         public ActionResult Delete(int id)
@@ -84,7 +87,7 @@ namespace BooksStore.Controllers
             {
                 return PartialView("Delete", comp);
             }
-            return View("Index");
+            return View("test");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -98,7 +101,7 @@ namespace BooksStore.Controllers
                 db.Books.Remove(comp);
                 db.SaveChanges();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("test");
         }
     }
 }
