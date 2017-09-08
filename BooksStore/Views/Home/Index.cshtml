@@ -6,7 +6,8 @@
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
             <div id="example">
-                <h3>Распродажа книг</h3>
+                <strong><h1>Распродажа книг</h1></strong>
+                
                 <table id="grid">
                     <colgroup>
                         <col />
@@ -14,6 +15,7 @@
                         <col style="width:110px" />
                         <col style="width:120px" />
                         <col style="width:130px" />
+                        <col style="width:100px" />
                     </colgroup>
                     <thead>
                         <tr>
@@ -25,23 +27,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
                         @foreach (var b in Model)
-
                         {
-
                             <tr>
-
                                 <td><p>@b.Name</p></td>
-
                                 <td><p>@b.Author</p></td>
-
                                 <td><p>@b.Price</p></td>
-
                                 <td><p><a href="/Home/Buy/@b.Id">Buy </a><a class="btn info" href="/Home/Delete/@b.Id"> Delete</a></p></td>
-
                             </tr>
-
                         }
                     </tbody>
                 </table>
@@ -76,7 +69,10 @@
                         <input class="form-control" type="text" placeholder="Price" name="Price" />
                         </td>
                     </tr>
+
                     <tr id="add_book"><td><input class="btn btn-info" type="submit" value="Отправить" /> </td><td></td></tr>
             </table>
                 </form>
+
+
 

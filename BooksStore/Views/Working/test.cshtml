@@ -1,0 +1,53 @@
+﻿@model IEnumerable<BooksStore.Models.Book>
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <title></title>
+    <link href='@Url.Content("~/Content/themes/base/jquery-ui.css")' rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <h2>List of books</h2>
+    <table>
+        @foreach (var c in Model)
+        {
+        
+            <tr>
+                <td>@c.Name</td>
+                <td>
+                    @Html.ActionLink("Смотреть", "Details", "Working", new { id = c.Id },
+new { @class = "viewDialog", data_dialog_title = "Описание модели" }) |
+                    @Html.ActionLink("Изменить", "Edit", "Working", new { id = c.Id },
+new { @class = "viewDialog", data_dialog_title = "Редактирование модели" }) |
+                    @Html.ActionLink("Удалить", "Delete", "Working", new { id = c.Id },
+new { @class = "viewDialog", data_dialog_title = "Удаление модели" })
+                </td>
+            </tr>}
+    </table>
+    <p> @Html.ActionLink("Добавить", "Create", "Working", new { }, new { @class = "viewDialog", data_dialog_title = "Создание модели" })</p>
+
+    <script src='@Url.Content("~/Scripts/jquery-1.12.4.min.js")' type="text/javascript"></script>
+    <script src='@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")' type="text/javascript"></script>
+    <script>
+    $(document).ready(function () {
+ 
+        $.ajaxSetup({ cache: false });
+ 
+        $(".viewDialog").on("click", function (e) {
+            e.preventDefault();
+ 
+            $("<div></div>")
+                .addClass("dialog")
+                .appendTo("body")
+                .dialog({
+                    title: $(this).attr("data-dialog-title"),
+                     close: function () { $(this).remove() },
+                    modal: true
+                })
+                .load(this.href);
+        });
+    });
+    </script>
+</body>
+</html>

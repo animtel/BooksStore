@@ -3,3 +3,5 @@
 ################################################################################
 
 /BooksStore/App_Data/BooksStore.Models.TestBD.mdf
+/BooksStore/App_Data/BooksStore.Models.TestBD_log.ldf
+/BooksStore/App_Data/BooksStore_log.ldf

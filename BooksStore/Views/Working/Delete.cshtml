@@ -1,0 +1,15 @@
+﻿@model BooksStore.Models.Book
+
+<h3>Вы действительно хотите удалить данную модель?</h3>
+<div>
+    <p>Ид.: @Html.DisplayFor(m => m.Id)</p>
+    <p>Модель: @Html.DisplayFor(m => m.Model)</p>
+    <p>Год выпуска: @Html.DisplayFor(m => m.Year)</p>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <input type="submit" value="Удалить" />  
+    }
+</div>

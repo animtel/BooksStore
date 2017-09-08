@@ -10,5 +10,9 @@ namespace BooksStore.Models
     {
         public DbSet<Book> Books { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<Journal> Journales { get; set; }
+
+        public DbSet<Paper> Papers { get; set; }
+        public DbSet<Form> Forms { get; set; }
     }
 }
