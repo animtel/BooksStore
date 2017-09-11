@@ -34,6 +34,7 @@ namespace BooksStore.Repository
         public void Update(Item paper)
         {
             db.Entry(paper).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
         public void Delete(int id)

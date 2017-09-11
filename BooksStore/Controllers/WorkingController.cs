@@ -19,7 +19,8 @@ namespace BooksStore.Controllers
         IRepository<Journal> db_of_Journales;
         IRepository<Item> db_of_Items;
         TestBD db = new TestBD();
-        List<Item> current = new List<Item>();
+        List<Item> current;
+        
 
 
 
@@ -30,73 +31,72 @@ namespace BooksStore.Controllers
             db_of_Journales = new SQLJournalRepository();
             db_of_Items = new SQLItemRepository();
 
+            current = db_of_Items.GetItemList().ToList();
+
             List<string> all_items = new List<string>();
-            all_items.Add("Books");
             all_items.Add("Journals");
-            all_items.Add("All");
+            all_items.Add("Books");
 
             ViewBag.AllItems = all_items;
         }
 
         public ActionResult test()
         {
-            var books = db.Books.ToList();
+
             
 
-            ViewBag.DataTable = books;
+            ViewBag.DataTable = db.Items.ToList();
 
             return View("test");
         }
 
-        public ActionResult Drop(string t)
+
+        public ActionResult Drop()
         {
+            string some = Request.Form["DropTypes"].ToString();
             
-            var books = db.Books.ToList();
-            var journales = db.Journales.ToList();
-
-            foreach (var item in books)
+            switch (some)
             {
-                current.Add(new Item { Id = item.Id, Name = item.Name, Author = item.Author, Price = item.Price });
+                case "Books":
+                    foreach (var item in db.Books.ToList())
+                    {
+                        db_of_Items.Create(new Item { Id = item.Id, Name = item.Name, Author = item.Author, Price = item.Price, Number = "-", Type = "Book" });
+                    }
+                    db_of_Items.Save();
 
+                    ViewBag.DataTable = db.Books.ToList();
+                    break;
+                case "Journals":
+                    db.Items.RemoveRange(current);
+                    foreach (var item in db.Journales.ToList())
+                    {
+                        db_of_Items.Create(new Item { Id = item.Id, Name = item.Name, Author = item.Author, Price = item.Price, Number = item.Number, Type = "Jurnal" });
+                    }
+                    db_of_Items.Save();
+
+                    ViewBag.DataTable = db.Journales.ToList();
+                    break;
             }
-            foreach (var item in journales)
-            {
-                current.Add(new Item { Id = item.Id, Name = item.Name, Author = item.Author, Price = item.Price, Number = item.Number });
-            }
+            db_of_Items.Save();
+            return View("test");
+        }
+
+        
+       
+        public ActionResult Details(int id)
+        {
             foreach (var item in current)
             {
                 db.Items.Add(item);
             }
-
-            
-            string some = Request.Form["DropTypes"].ToString();
-            switch (some)
-            {
-                case "Books":
-                    ViewBag.DataTable = books;
-                    break;
-                case "Journals":
-                    ViewBag.DataTable = journales;
-                    break;
-                case "All":
-                    ViewBag.DataTable = current;
-                    break;
-            }
-
-            return View("test");
-        }
-
-        // Просмотр подробных сведений о книге
-        public ActionResult Details(int id)
-        {
             Item it = db.Items.Find(id);
-
             if (it != null)
             {
                 return PartialView("Details", it);
             }
             return View("test");
         }
+
         public ActionResult Create()
         {
             return View();
@@ -125,7 +125,7 @@ namespace BooksStore.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Book comp)
+        public ActionResult Edit(Item comp)
         {
             db.Entry(comp).State = EntityState.Modified;
             db.SaveChanges();
