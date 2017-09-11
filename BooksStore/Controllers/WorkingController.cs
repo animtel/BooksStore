@@ -13,7 +13,6 @@ namespace BooksStore.Controllers
 {
     public class WorkingController : Controller
     {
-        // создаем контекст данных
         IRepository<Book> db_of_Books;
         IRepository<Purchase> db_of_Purchases;
         IRepository<Journal> db_of_Journales;
@@ -21,8 +20,6 @@ namespace BooksStore.Controllers
         TestBD db = new TestBD();
         List<Item> current;
         
-
-
 
         public WorkingController()
         {
@@ -42,8 +39,6 @@ namespace BooksStore.Controllers
 
         public ActionResult test()
         {
-
-            
 
             ViewBag.DataTable = db.Items.ToList();
 
@@ -67,7 +62,6 @@ namespace BooksStore.Controllers
                     ViewBag.DataTable = db.Books.ToList();
                     break;
                 case "Journals":
-                    db.Items.RemoveRange(current);
                     foreach (var item in db.Journales.ToList())
                     {
                         db_of_Items.Create(new Item { Id = item.Id, Name = item.Name, Author = item.Author, Price = item.Price, Number = item.Number, Type = "Jurnal" });
@@ -81,8 +75,6 @@ namespace BooksStore.Controllers
             return View("test");
         }
 
-        
-       
         public ActionResult Details(int id)
         {
             foreach (var item in current)
