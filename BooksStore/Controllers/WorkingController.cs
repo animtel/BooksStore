@@ -21,54 +21,97 @@ namespace BooksStore.Controllers
         TestBD db = new TestBD();
         List<Item> current = new List<Item>();
 
+
+
         public WorkingController()
         {
             db_of_Books = new SQLBookRepository();
             db_of_Purchases = new SQLPurchaseRepository();
             db_of_Journales = new SQLJournalRepository();
             db_of_Items = new SQLItemRepository();
+
+            List<string> all_items = new List<string>();
+            all_items.Add("Books");
+            all_items.Add("Journals");
+            all_items.Add("All");
+
+            ViewBag.AllItems = all_items;
         }
 
         public ActionResult test()
         {
             var books = db.Books.ToList();
+            
+
+            ViewBag.DataTable = books;
+
+            return View("test");
+        }
+
+        public ActionResult Drop(string t)
+        {
+            
+            var books = db.Books.ToList();
             var journales = db.Journales.ToList();
 
             foreach (var item in books)
             {
-                db.Items.Add(new Item(item.Id, item.Name, item.Author, item.Price));
+                current.Add(new Item { Id = item.Id, Name = item.Name, Author = item.Author, Price = item.Price });
+
             }
             foreach (var item in journales)
             {
-                db.Items.Add(new Item(item.Id, item.Name, item.Author, item.Price, item.Number));
+                current.Add(new Item { Id = item.Id, Name = item.Name, Author = item.Author, Price = item.Price, Number = item.Number });
+            }
+            foreach (var item in current)
+            {
+                db.Items.Add(item);
             }
 
-            current = db_of_Items.GetItemList().ToList();
-            return View(current);
+            
+            string some = Request.Form["DropTypes"].ToString();
+            switch (some)
+            {
+                case "Books":
+                    ViewBag.DataTable = books;
+                    break;
+                case "Journals":
+                    ViewBag.DataTable = journales;
+                    break;
+                case "All":
+                    ViewBag.DataTable = current;
+                    break;
+            }
+
+            return View("test");
         }
 
         // Просмотр подробных сведений о книге
         public ActionResult Details(int id)
         {
             Item it = db.Items.Find(id);
+
             if (it != null)
             {
                 return PartialView("Details", it);
             }
             return View("test");
         }
-        // Добавление
-        public ActionResult Create()
+        public ActionResult Create()
         {
-            return PartialView("Create");
+            return View();
         }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(Item item)
         {
-            db.Items.Add(item);
-            db.SaveChanges();
-            return RedirectToAction("test");
+            if (ModelState.IsValid)
+            {
+                db_of_Items.Create(item);
+                db_of_Items.Save();
+                return RedirectToAction("test");
+            }
+            return View(item);
         }
         // Редактирование
         public ActionResult Edit(int id)

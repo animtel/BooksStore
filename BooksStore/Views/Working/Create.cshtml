@@ -1,8 +1,13 @@
-﻿@model BooksStore.Models.Book
+﻿@model BooksStore.Models.Item
 <div>
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
+        <div>
+            @Html.LabelFor(model => model.Name)
+            <p>@Html.EditorFor(model => model.Name)</p>
+        </div>
+
         <div>
             @Html.LabelFor(model => model.Author)
             <p>@Html.EditorFor(model => model.Author)</p>
@@ -12,6 +17,11 @@
             @Html.LabelFor(model => model.Price)
             <p>@Html.EditorFor(model => model.Price)</p>
         </div>
+        <div>
+            @Html.LabelFor(model => model.Type)
+            <p>@Html.EditorFor(model => model.Type)</p>
+        </div>
         <p><input type="submit" value="Добавить" /></p>
     }
 </div>
+

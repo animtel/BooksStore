@@ -21,8 +21,13 @@ namespace BooksStore.Models
             db.Journales.Add(new Journal { Name = "Journa", Author = "Л. Толстой", Price = 220 , Number = "1" }); 
             db.Journales.Add(new Journal { Name = "Some", Author = "Л. Толстой", Price = 123, Number = "5" }); 
             db.Journales.Add(new Journal { Name = "Intes", Author = "Л. Толстой", Price = 450, Number = "3" }); 
-            db.Journales.Add(new Journal { Name = "Ret", Author = "Л. Толстой", Price = 120, Number = "8" }); 
+            db.Journales.Add(new Journal { Name = "Ret", Author = "Л. Толстой", Price = 120, Number = "8" });
 
+            //db.Items.Add(new Item { Name = "Journa", Author = "Л. Толстой", Price = 200, Number = "-", Type = "Book" });
+            //db.Items.Add(new Item { Name = "Sme", Author = "Jon De", Price = 2, Number = "3", Type = "Journal"  });
+            //db.Items.Add(new Item { Name = "itenbot", Author = "Alla N", Price = 124, Number = "-", Type = "Book" });
+            //db.Items.Add(new Item { Name = "venera", Author = "Keni F", Price = 643, Number = "8", Type = "Journal" });
+            //db.Items.Add(new Item { Name = "mars", Author = "Bob W", Price = 242, Number = "-", Type = "Book" });
 
 
             db.Books.Add(new Book { Name = "Отцы и дети", Author = "И. Тургенев", Price = 180 });

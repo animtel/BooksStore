@@ -1,4 +1,4 @@
-﻿@model BooksStore.Models.Book
+﻿@model BooksStore.Models.Item
 <div>
     @using (Html.BeginForm())
     {
@@ -11,6 +11,10 @@
         <div>
             @Html.LabelFor(model => model.Price)
             <p>@Html.EditorFor(model => model.Price)</p>
+        </div>
+        <div>
+            @Html.LabelFor(mode => Model.Number)
+            <p>@Html.EditorFor(model => model.Number)</p>
         </div>
         <p><input type="submit" value="Сохранить" /></p>
     }

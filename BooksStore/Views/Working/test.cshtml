@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<BooksStore.Models.Item>
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <html>
 <head>
@@ -9,23 +9,69 @@
 </head>
 <body>
     <h2>List of books</h2>
-    <table>
-        @foreach (var c in Model)
-        {
-        
-            <tr>
-                <td>@c.Name</td>
-                <td>
-                    @Html.ActionLink("Смотреть", "Details", "Working", new { id = c.Id },
-new { @class = "viewDialog", data_dialog_title = "Описание модели" }) |
-                    @Html.ActionLink("Изменить", "Edit", "Working", new { id = c.Id },
-new { @class = "viewDialog", data_dialog_title = "Редактирование модели" }) |
-                    @Html.ActionLink("Удалить", "Delete", "Working", new { id = c.Id },
-new { @class = "viewDialog", data_dialog_title = "Удаление модели" })
-                </td>
-            </tr>}
-    </table>
-    <p> @Html.ActionLink("Добавить", "Create", "Working", new { }, new { @class = "viewDialog", data_dialog_title = "Создание модели" })</p>
+    <form method="post" action="/Working/Drop">
+        <p>
+            @Html.DropDownList("DropTypes", new SelectList(ViewBag.AllItems))
+            <button type="submit" value="Отправить">Отправить</button>
+        </p>
+    </form>
+
+        <div id="example">
+            <table id="grid">
+                <colgroup>
+                    <col />
+                    <col />
+                    <col style="width:110px" />
+                    <col style="width:100px" />
+                </colgroup>
+                <thead id="table_head">
+                    <tr>
+                        <th data-field="Name">Name</th>
+                        <th>CRUD</th>
+
+                    </tr>
+                </thead>
+                <tbody id="table_data">
+                    @foreach (var c in ViewBag.DataTable)
+                {
+                        <tr>
+                                    <td>
+                                        <p>@c.Name</p></td>
+                                <td>
+                                    <p>
+                                        <a href="/Working/Details/@c.Id">Смотреть</a>
+                                        <a href="/Working/Edit/@c.Id">Редактировать </a>
+                                        <a href="/Working/Delete/@c.Id">Удалить </a>
+                                
+                                </p>
+                            </td>
+                       </tr>
+                }
+            </tbody>
+        </table>
+
+        <script>
+            function Table() {
+                var target_head = $("#table_head");
+                target_head.empty();
+                target_head.append("<tr>< th data- field='Name'>Name</th><th>CRUD</th></tr >");
+                var target_data = $("#table_data");
+                target_data.empty();
+                
+
+            }
+
+            $(document).ready(function () {
+                $("#grid").kendoGrid({
+                    height: 400,
+                    sortable: true
+                });
+            });
+        </script>
+    </div>
+
+    <p><a href="/Working/Create">Добавить</a></p>
+    
 
     <script src='@Url.Content("~/Scripts/jquery-1.12.4.min.js")' type="text/javascript"></script>
     <script src='@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")' type="text/javascript"></script>
@@ -49,5 +95,9 @@ new { @class = "viewDialog", data_dialog_title = "Удаление модели"
         });
     });
     </script>
+    
+
+
+
 </body>
 </html>
