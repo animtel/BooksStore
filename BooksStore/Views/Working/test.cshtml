@@ -4,22 +4,23 @@
 }
 
     <h2>List of books</h2>
+<div id="test-page">
     <form method="post" action="/Working/Drop">
         <p>
             @Html.DropDownList("DropTypes", new SelectList(ViewBag.AllItems))
-            <button type="submit" class="btn btn-info" value="Отправить">Отправить</button>
+            <button type="submit" class="btn btn-primary" value="Отправить">Отправить</button>
         </p>
     </form>
 
-       
-    <form method="post" action="/Working/CreateItem">
-        
-        <p>
-        @Html.DropDownList("DropCreate", new SelectList(ViewBag.AllCreates))
-        <button type="submit" class="btn btn-info" value="Отправить">Добавить</button>
-    
-    </form>
 
+    <form method="post" action="/Working/CreateItem">
+
+        <p>
+            @Html.DropDownList("DropCreate", new SelectList(ViewBag.AllCreates))
+            <button type="submit" class="btn btn-primary" value="Отправить">Добавить</button>
+
+    </form>
+</div>
     
     
 

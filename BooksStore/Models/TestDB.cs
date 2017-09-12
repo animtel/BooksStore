@@ -9,7 +9,6 @@ namespace BooksStore.Models
     public class TestBD : DbContext
     {
         public DbSet<Book> Books { get; set; }
-        public DbSet<Purchase> Purchases { get; set; }
         public DbSet<Journal> Journales { get; set; }
 
 
