@@ -33,6 +33,12 @@ namespace BooksStore.Controllers
             List<string> all_items = new List<string>();
             all_items.Add("Journals");
             all_items.Add("Books");
+            all_items.Add("All");
+
+            List<string> all_types = new List<string>();
+            all_types.Add("Book");
+            all_types.Add("Journal");
+           
 
             ViewBag.AllItems = all_items;
         }
@@ -49,30 +55,58 @@ namespace BooksStore.Controllers
         public ActionResult Drop()
         {
             string some = Request.Form["DropTypes"].ToString();
-            
+
             switch (some)
             {
                 case "Books":
+                    Delete_List_and_Db();
                     foreach (var item in db.Books.ToList())
                     {
                         db_of_Items.Create(new Item { Id = item.Id, Name = item.Name, Author = item.Author, Price = item.Price, Number = "-", Type = "Book" });
                     }
                     db_of_Items.Save();
-
-                    ViewBag.DataTable = db.Books.ToList();
+                    ViewBag.DataTable = db_of_Items.GetItemList();
                     break;
                 case "Journals":
+                    Delete_List_and_Db();
                     foreach (var item in db.Journales.ToList())
                     {
                         db_of_Items.Create(new Item { Id = item.Id, Name = item.Name, Author = item.Author, Price = item.Price, Number = item.Number, Type = "Jurnal" });
                     }
                     db_of_Items.Save();
-
-                    ViewBag.DataTable = db.Journales.ToList();
+                    ViewBag.DataTable = db_of_Items.GetItemList();
+                    break;
+                case "All":
+                    Delete_List_and_Db();
+                    int id_of_items = 0;
+                    foreach (var item in db.Books.ToList())
+                    {
+                        db_of_Items.Create(new Item { Id = id_of_items++ , Name = item.Name, Author = item.Author, Price = item.Price, Number = "-", Type = "Book" });
+                    }
+                    foreach (var item in db.Journales.ToList())
+                    {
+                        db_of_Items.Create(new Item { Id = id_of_items++ , Name = item.Name, Author = item.Author, Price = item.Price, Number = item.Number, Type = "Jurnal" });
+                    }
+                    db_of_Items.Save();
+                    ViewBag.DataTable = db.Items.ToList();
                     break;
             }
             db_of_Items.Save();
             return View("test");
+        }
+
+        public void Delete_List_and_Db()
+        {
+            for (int i = 0; i < db_of_Items.GetItemList().ToList().Count + 1; i++)
+            {
+                db_of_Items.Delete(i);
+            }
+
+            current = null;
+        }
+        public void Delete_Db(List<Item> list)
+        {
+            db.Items.RemoveRange(list);
         }
 
         public ActionResult Details(int id)
