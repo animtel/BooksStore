@@ -3,8 +3,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <h2>List of books</h2>
+    
 <div id="test-page">
+    <h2>List of books</h2>
     <form method="post" action="/Working/Drop">
         <p>
             @Html.DropDownList("DropTypes", new SelectList(ViewBag.AllItems))
