@@ -2,12 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<html>
-<head>
-    <title></title>
-    <link href='@Url.Content("~/Content/themes/base/jquery-ui.css")' rel="stylesheet" type="text/css" />
-</head>
-<body>
+
     <h2>List of books</h2>
     <form method="post" action="/Working/Drop">
         <p>
@@ -16,88 +11,16 @@
         </p>
     </form>
 
-        <div id="example">
-            <table id="grid">
-                <colgroup>
-                    <col />
-                    <col />
-                    <col style="width:110px" />
-                    <col style="width:100px" />
-                </colgroup>
-                <thead id="table_head">
-                    <tr>
-                        <th data-field="Name">Name</th>
-                        <th>CRUD</th>
-
-                    </tr>
-                </thead>
-                <tbody id="table_data">
-                    @foreach (var c in ViewBag.DataTable)
-                    {
-                        <tr>
-                                    <td>
-                                        <p>@c.Name</p></td>
-                                    <td>
-                                    <p>
-                                        <a href="/Working/Details/@c.Id">Смотреть</a>
-                                        <a href="/Working/Edit/@c.Id">Редактировать </a>
-                                        <a href="/Working/Delete/@c.Id">Удалить </a>
-                                
-                                    </p>
-                            </td>
-                       </tr>
-                    }
-            </tbody>
-        </table>
-
-        <script>
-            function Table() {
-                var target_head = $("#table_head");
-                target_head.empty();
-                target_head.append("<tr>< th data- field='Name'>Name</th><th>CRUD</th></tr >");
-                var target_data = $("#table_data");
-                target_data.empty();
-                
-
-            }
-
-            $(document).ready(function () {
-                $("#grid").kendoGrid({
-                    height: 400,
-                    sortable: true
-                });
-            });
-        </script>
-    </div>
-
-    <p><a href="/Working/Create">Добавить</a></p>
+       
+    <form method="post" action="/Working/CreateItem">
+        
+        <p>
+        @Html.DropDownList("DropCreate", new SelectList(ViewBag.AllCreates))
+        <button type="submit" class="btn btn-info" value="Отправить">Добавить</button>
     
+    </form>
 
-    <script src='@Url.Content("~/Scripts/jquery-1.12.4.min.js")' type="text/javascript"></script>
-    <script src='@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")' type="text/javascript"></script>
-    <script>
-    $(document).ready(function () {
- 
-        $.ajaxSetup({ cache: false });
- 
-        $(".viewDialog").on("click", function (e) {
-            e.preventDefault();
- 
-            $("<div></div>")
-                .addClass("dialog")
-                .appendTo("body")
-                .dialog({
-                    title: $(this).attr("data-dialog-title"),
-                     close: function () { $(this).remove() },
-                    modal: true
-                })
-                .load(this.href);
-        });
-    });
-    </script>
+    
     
 
 
-
-</body>
-</html>

@@ -1,0 +1,22 @@
+﻿
+@model BooksStore.Models.Journal
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        <div>
+            @Html.LabelFor(model => model.Name)
+            <p>@Html.EditorFor(model => model.Name)</p>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Price)
+            <p>@Html.EditorFor(model => model.Price)</p>
+        </div>
+        <div>
+            @Html.LabelFor(mode => Model.Number)
+            <p>@Html.EditorFor(model => model.Number)</p>
+        </div>
+        <p><input type="submit" value="Сохранить" /></p>
+    }
+</div>

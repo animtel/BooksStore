@@ -9,43 +9,43 @@ namespace BooksStore.Repository
 {
     public class SQLPurchaseRepository : IRepository<Purchase>
     {
-        private TestBD db;
+        private TestBD _db;
 
         public SQLPurchaseRepository()
         {
-            this.db = new TestBD();
+            this._db = new TestBD();
         }
 
         public IEnumerable<Purchase> GetItemList()
         {
-            return db.Purchases;
+            return _db.Purchases;
         }
 
         public Purchase GetItem(int id)
         {
-            return db.Purchases.Find(id);
+            return _db.Purchases.Find(id);
         }
 
         public void Create(Purchase purchase)
         {
-            db.Purchases.Add(purchase);
+            _db.Purchases.Add(purchase);
         }
 
         public void Update(Purchase purchase)
         {
-            db.Entry(purchase).State = EntityState.Modified;
+            _db.Entry(purchase).State = EntityState.Modified;
         }
 
         public void Delete(int id)
         {
-            Purchase purchase = db.Purchases.Find(id);
+            Purchase purchase = _db.Purchases.Find(id);
             if (purchase != null)
-                db.Purchases.Remove(purchase);
+                _db.Purchases.Remove(purchase);
         }
 
         public void Save()
         {
-            db.SaveChanges();
+            _db.SaveChanges();
         }
 
         private bool disposed = false;
@@ -56,7 +56,7 @@ namespace BooksStore.Repository
             {
                 if (disposing)
                 {
-                    db.Dispose();
+                    _db.Dispose();
                 }
             }
             this.disposed = true;
