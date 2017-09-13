@@ -10,21 +10,21 @@ namespace BooksStore.Controllers
 {
     public class ItemsController : Controller
     {
-        private ItemSevice _itemservice;
-        private JournalService _service_of_journal;
-        private BookService _service_of_book;
+        private ItemSevice _item_service;
+        private JournalService _journal_service;
+        private BookService _book_service;
         public ItemsController()
         {
-            _itemservice = new ItemSevice();
-            _service_of_book = new BookService();
-            _service_of_journal = new JournalService();
+            _item_service = new ItemSevice();
+            _book_service = new BookService();
+            _journal_service = new JournalService();
         }
 
         public void DeletElements()
         {
-            for (int i = 0; i < _itemservice.GetItemList().ToList().Count+1; i++)
+            for (int i = 0; i < _item_service.GetItemList().ToList().Count+1; i++)
             {
-                _itemservice.Delete(i);
+                _item_service.Delete(i);
             }
         }
 
@@ -34,22 +34,22 @@ namespace BooksStore.Controllers
             int id_of_items = 0;
             DeletElements();
 
-            foreach (var item in _service_of_book.GetBookList())
+            foreach (var item in _book_service.GetBookList())
             {
 
-                _itemservice.Add(new Item{ Id = id_of_items++, Name = item.Name, Author = item.Author, Price = item.Price, Number = "-", Type = "Book" });
+                _item_service.Add(new Item{ Id = id_of_items++, Name = item.Name, Author = item.Author, Price = item.Price, Number = "-", Type = "Book" });
 
             }
 
-            foreach (var item in _service_of_journal.GetJournalsList())
+            foreach (var item in _journal_service.GetJournalsList())
             {
 
-                _itemservice.Add(new Item { Id = id_of_items++, Name = item.Name, Author = item.Author, Price = item.Price, Number = item.Number, Type = "Jurnal" });
+                _item_service.Add(new Item { Id = id_of_items++, Name = item.Name, Author = item.Author, Price = item.Price, Number = item.Number, Type = "Jurnal" });
 
             }
-            _itemservice.Save();
+            _item_service.Save();
             
-            ViewBag.DataTable = _itemservice.GetItemList();
+            ViewBag.DataTable = _item_service.GetItemList();
             return View();
         }
 

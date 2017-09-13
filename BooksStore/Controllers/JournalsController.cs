@@ -10,28 +10,28 @@ namespace BooksStore.Controllers
 {
     public class JournalsController : Controller
     {
-        JournalService _journalservice;
+        JournalService _journal_service;
 
 
         public JournalsController()
         {
-            _journalservice = new JournalService();
+            _journal_service = new JournalService();
         }
 
         public ActionResult Index()
         {
-            ViewBag.DataTable = _journalservice.GetJournalsList().ToList();
+            ViewBag.DataTable = _journal_service.GetJournalsList().ToList();
 
             return View("Index");
         }
 
         public ActionResult Details(int id)
         {
-            foreach (var item in _journalservice.GetJournalsList())
+            foreach (var item in _journal_service.GetJournalsList())
             {
-                _journalservice.Add(item);
+                _journal_service.Add(item);
             }
-            Journal it = _journalservice.GetJournal(id);
+            Journal it = _journal_service.GetJournal(id);
             if (it != null)
             {
                 return PartialView("Details", it);
@@ -49,8 +49,8 @@ namespace BooksStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                _journalservice.Add(journal);
-                _journalservice.Save();
+                _journal_service.Add(journal);
+                _journal_service.Save();
                 return RedirectToAction("Index");
             }
             return View(journal);
@@ -58,7 +58,8 @@ namespace BooksStore.Controllers
 
         public ActionResult Edit(int id)
         {
-            Journal comp = _journalservice.GetJournal(id);
+            Journal comp = _journal_service.GetJournal(id);
+            _journal_service.Delete(id);
             if (comp != null)
             {
                 return PartialView("Edit", comp);
@@ -70,13 +71,13 @@ namespace BooksStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Journal journal)
         {
-            _journalservice.Update(journal);
+            _journal_service.Add(journal);
             return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int id)
         {
-            Journal comp = _journalservice.GetJournal(id);
+            Journal comp = _journal_service.GetJournal(id);
             if (comp != null)
             {
                 return PartialView("Delete", comp);
@@ -89,12 +90,12 @@ namespace BooksStore.Controllers
         [ActionName("Delete")]
         public ActionResult DeleteRecord(int id)
         {
-            Journal comp = _journalservice.GetJournal(id);
+            Journal comp = _journal_service.GetJournal(id);
 
             if (comp != null)
             {
-                _journalservice.Delete(id);
-                _journalservice.Save();
+                _journal_service.Delete(id);
+                _journal_service.Save();
             }
             return RedirectToAction("Index");
         }

@@ -10,27 +10,27 @@ namespace BooksStore.Controllers
 {
     public class BooksController : Controller
     {
-        private BookService _bookservice;
+        private BookService _book_service;
         
         public BooksController()
         {
-             _bookservice = new BookService();
+             _book_service = new BookService();
         }
 
         public ActionResult Index()
         {
-            ViewBag.DataTable = _bookservice.GetBookList().ToList();
+            ViewBag.DataTable = _book_service.GetBookList().ToList();
 
             return View("Index");
         }
        
         public ActionResult Details(int id)
         {
-            foreach (var item in _bookservice.GetBookList())
+            foreach (var item in _book_service.GetBookList())
             {
-                _bookservice.Add(item);
+                _book_service.Add(item);
             }
-            Book it = _bookservice.GetBook(id);
+            Book it = _book_service.GetBook(id);
             if (it != null)
             {
                 return PartialView("Details", it);
@@ -44,23 +44,23 @@ namespace BooksStore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Book item)
+        public ActionResult Create(Book book)
         {
             if (ModelState.IsValid)
             {
-                _bookservice.Add(item);
-                _bookservice.Save();
+                _book_service.Add(book);
+                _book_service.Save();
                 return RedirectToAction("Index");
             }
-            return View(item);
+            return View(book);
         }
 
         public ActionResult Edit(int id)
         {
-            Book comp = _bookservice.GetBook(id);
-            if (comp != null)
+            Book book = _book_service.GetBook(id);
+            if (book != null)
             {
-                return PartialView("Edit", comp);
+                return PartialView("Edit", book);
             }
             return View("test");
         }
@@ -69,13 +69,13 @@ namespace BooksStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Book book)
         {
-            _bookservice.Update(book);
+            _book_service.Update(book);
             return RedirectToAction("Index");
         }
         
         public ActionResult Delete(int id)
         {
-            Book comp = _bookservice.GetBook(id);
+            Book comp = _book_service.GetBook(id);
             if (comp != null)
             {
                 return PartialView("Delete", comp);
@@ -88,12 +88,12 @@ namespace BooksStore.Controllers
         [ActionName("Delete")]
         public ActionResult DeleteRecord(int id)
         {
-            Book comp = _bookservice.GetBook(id);
+            Book comp = _book_service.GetBook(id);
 
             if (comp != null)
             {
-                _bookservice.Delete(id);
-                _bookservice.Save();
+                _book_service.Delete(id);
+                _book_service.Save();
             }
             return RedirectToAction("Index");
         }
