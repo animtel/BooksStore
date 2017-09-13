@@ -10,27 +10,27 @@ namespace BooksStore.Controllers
 {
     public class BooksController : Controller
     {
-        private BookService _serv;
+        private BookService _bookservice;
         
         public BooksController()
         {
-             _serv = new BookService();
+             _bookservice = new BookService();
         }
 
         public ActionResult Index()
         {
-            ViewBag.DataTable = _serv.GetBookList().ToList();
+            ViewBag.DataTable = _bookservice.GetBookList().ToList();
 
             return View("Index");
         }
        
         public ActionResult Details(int id)
         {
-            foreach (var item in _serv.GetBookList())
+            foreach (var item in _bookservice.GetBookList())
             {
-                _serv.Add(item);
+                _bookservice.Add(item);
             }
-            Book it = _serv.GetBook(id);
+            Book it = _bookservice.GetBook(id);
             if (it != null)
             {
                 return PartialView("Details", it);
@@ -48,8 +48,8 @@ namespace BooksStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                _serv.Add(item);
-                _serv.Save();
+                _bookservice.Add(item);
+                _bookservice.Save();
                 return RedirectToAction("Index");
             }
             return View(item);
@@ -57,7 +57,7 @@ namespace BooksStore.Controllers
 
         public ActionResult Edit(int id)
         {
-            Book comp = _serv.GetBook(id);
+            Book comp = _bookservice.GetBook(id);
             if (comp != null)
             {
                 return PartialView("Edit", comp);
@@ -69,13 +69,13 @@ namespace BooksStore.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Book book)
         {
-            _serv.Update(book);
+            _bookservice.Update(book);
             return RedirectToAction("Index");
         }
         
         public ActionResult Delete(int id)
         {
-            Book comp = _serv.GetBook(id);
+            Book comp = _bookservice.GetBook(id);
             if (comp != null)
             {
                 return PartialView("Delete", comp);
@@ -88,12 +88,12 @@ namespace BooksStore.Controllers
         [ActionName("Delete")]
         public ActionResult DeleteRecord(int id)
         {
-            Book comp = _serv.GetBook(id);
+            Book comp = _bookservice.GetBook(id);
 
             if (comp != null)
             {
-                _serv.Delete(id);
-                _serv.Save();
+                _bookservice.Delete(id);
+                _bookservice.Save();
             }
             return RedirectToAction("Index");
         }

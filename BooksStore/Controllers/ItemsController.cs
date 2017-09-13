@@ -10,21 +10,21 @@ namespace BooksStore.Controllers
 {
     public class ItemsController : Controller
     {
-        private ItemSevice _serv;
+        private ItemSevice _itemservice;
         private JournalService _service_of_journal;
         private BookService _service_of_book;
         public ItemsController()
         {
-            _serv = new ItemSevice();
+            _itemservice = new ItemSevice();
             _service_of_book = new BookService();
             _service_of_journal = new JournalService();
         }
 
         public void DeletElements()
         {
-            for (int i = 0; i < _serv.GetItemList().ToList().Count+1; i++)
+            for (int i = 0; i < _itemservice.GetItemList().ToList().Count+1; i++)
             {
-                _serv.Delete(i);
+                _itemservice.Delete(i);
             }
         }
 
@@ -37,19 +37,19 @@ namespace BooksStore.Controllers
             foreach (var item in _service_of_book.GetBookList())
             {
 
-                _serv.Add(new Item{ Id = id_of_items++, Name = item.Name, Author = item.Author, Price = item.Price, Number = "-", Type = "Book" });
+                _itemservice.Add(new Item{ Id = id_of_items++, Name = item.Name, Author = item.Author, Price = item.Price, Number = "-", Type = "Book" });
 
             }
 
             foreach (var item in _service_of_journal.GetJournalsList())
             {
 
-                _serv.Add(new Item { Id = id_of_items++, Name = item.Name, Author = item.Author, Price = item.Price, Number = item.Number, Type = "Jurnal" });
+                _itemservice.Add(new Item { Id = id_of_items++, Name = item.Name, Author = item.Author, Price = item.Price, Number = item.Number, Type = "Jurnal" });
 
             }
-            _serv.Save();
+            _itemservice.Save();
             
-            ViewBag.DataTable = _serv.GetItemList();
+            ViewBag.DataTable = _itemservice.GetItemList();
             return View();
         }
 
