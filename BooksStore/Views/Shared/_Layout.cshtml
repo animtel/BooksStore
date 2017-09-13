@@ -28,23 +28,30 @@
 </head>
 
 
-https://anuitex.com/
 <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    
+                </button>
+                @Html.ActionLink("BookStore", "test", "Working", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "test", "Working")</li>
 
-    <nav>
-
-        <ul class="menu">
-
-            <li>@Html.ActionLink("Главная", "test", "Working")</li>
-
-        </ul>
-
-    </nav>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
 
     @RenderBody()
 
     
-
+    
 </body>
 
 </html>
