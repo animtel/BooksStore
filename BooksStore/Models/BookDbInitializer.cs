@@ -30,6 +30,7 @@ namespace BooksStore.Models
             db.Books.Add(new Book { Name = "UI", Author = "А. Чехов", Price = 210 });
             db.Books.Add(new Book { Name = "loop", Author = "А. Чехов", Price = 220 });
 
+            
             base.Seed(db);
         }
     }

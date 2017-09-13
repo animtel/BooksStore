@@ -367,8 +367,6 @@
     <Compile Include="Services\BookService.cs" />
     <Compile Include="Services\ItemSevice.cs" />
     <Compile Include="Services\JournalService.cs" />
-    <Compile Include="Util\HtmlResult.cs" />
-    <Compile Include="Util\ImageResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\BooksStore.mdf" />

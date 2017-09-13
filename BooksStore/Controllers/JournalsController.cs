@@ -1,9 +1,6 @@
 ﻿using BooksStore.Models;
 using BooksStore.Services;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace BooksStore.Controllers
@@ -64,7 +61,7 @@ namespace BooksStore.Controllers
             {
                 return PartialView("Edit", comp);
             }
-            return View("test");
+            return View("Index");
         }
 
         [HttpPost]

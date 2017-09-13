@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using BooksStore.Models;
-using BooksStore.Util;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using BooksStore.Repository;
 
 namespace BooksStore.Controllers
 {
